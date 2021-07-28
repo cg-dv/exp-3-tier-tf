@@ -27,7 +27,7 @@ resource "aws_lb_listener" "alb-listener" {
 }
 
 output "alb_ip" {
-  value = aws_lb.example-alb.dns_name
+  value       = aws_lb.example-alb.dns_name
   description = "Public DNS name of application load balancer."
 
   depends_on = [

@@ -5,12 +5,20 @@ resource "aws_autoscaling_attachment" "asg_attachment" {
 
 resource "aws_launch_configuration" "example-lc" {
   name                        = "terraform-lc"
-  image_id                    = "ami-0323c3dd2da7fb37d"
+  image_id                    = "ami-0d382e80be7ffdae5"
   instance_type               = "t2.micro"
   associate_public_ip_address = true
-  user_data                   = "#!/usr/bin/env bash\nsudo amazon-linux-extras enable nginx1.12\nsudo yum -y install nginx\nsudo systemctl start nginx"
+  user_data                   = <<EOF
+    #!/usr/bin/env bash
+    sudo apt-get update
+    sudo apt-get -y install npm git
+    git clone git@github.com:cg-dv/express_form.git
+    cd express_form/express_form
+    npm install
+    npm start
+    EOF
   security_groups             = [aws_security_group.http.id]
-  key_name                    = "tf_example"
+  key_name                    = "tf_ca"
 }
 
 resource "aws_autoscaling_group" "bar" {
@@ -19,7 +27,7 @@ resource "aws_autoscaling_group" "bar" {
   min_size                  = 1
   health_check_grace_period = 300
   desired_capacity          = 1
-  health_check_type         = "EC2" 
+  health_check_type         = "EC2"
   force_delete              = true
   launch_configuration      = aws_launch_configuration.example-lc.name
   target_group_arns         = [aws_lb_target_group.example-tg.arn]

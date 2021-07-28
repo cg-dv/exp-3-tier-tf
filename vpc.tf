@@ -17,11 +17,11 @@ resource "aws_default_route_table" "route_to_internet" {
 resource "aws_subnet" "example_subnet_1" {
   vpc_id               = aws_vpc.example.id
   cidr_block           = "10.0.1.0/24"
-  availability_zone_id = "use1-az1"
+  availability_zone_id = "usw1-az1"
 }
 
 resource "aws_subnet" "example_subnet_2" {
   vpc_id               = aws_vpc.example.id
   cidr_block           = "10.0.2.0/24"
-  availability_zone_id = "use1-az2"
+  availability_zone_id = "usw1-az3"
 }
