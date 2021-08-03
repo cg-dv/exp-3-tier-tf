@@ -1,13 +1,3 @@
-data "aws_secretsmanager_secret_version" "credentials" {
-  secret_id = "db_credentials"
-}
-
-locals {
-  db_credentials = jsondecode( 
-    data.aws_secretsmanager_secret_version.credentials.secret_string
-  )
-}
-
 resource "aws_db_instance" "example_rds" {
   allocated_storage     = 20
   max_allocated_storage = 30
