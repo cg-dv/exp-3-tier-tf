@@ -12,8 +12,8 @@ resource "aws_launch_configuration" "example-lc" {
     #!/usr/bin/env bash
     sudo apt-get update
     sudo apt-get -y install npm git
-    git clone git@github.com:cg-dv/express_form.git
-    cd express_form/express_form
+    git clone git@github.com:cg-dv/express-js-3-tier.git
+    cd express-js-3-tier/express_form
     npm install
     npm start
     EOF

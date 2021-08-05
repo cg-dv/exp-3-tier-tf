@@ -31,6 +31,6 @@ output "alb_ip" {
   description = "Public DNS name of application load balancer."
 
   depends_on = [
-    example-alb
+    aws_lb.example-alb
   ]
 }
