@@ -8,14 +8,15 @@ resource "aws_launch_configuration" "example-lc" {
   image_id                    = "ami-0d382e80be7ffdae5"
   instance_type               = "t2.micro"
   associate_public_ip_address = true
-  user_data                   = <<EOF
+  user_data                   = <<-EOF
     #!/usr/bin/env bash
     sudo apt-get update
-    sudo apt-get -y install npm git
-    git clone git@github.com:cg-dv/express-js-3-tier.git
+    sudo apt-get -y upgrade
+    sudo apt-get -y install nodejs npm git
+    git clone https://github.com/cg-dv/express-js-3-tier.git
     cd express-js-3-tier/express_form
     npm install
-    npm start
+    node app.js 
     EOF
   security_groups             = [aws_security_group.http.id]
   key_name                    = "tf_ca"
