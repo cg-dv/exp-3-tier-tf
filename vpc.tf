@@ -25,3 +25,10 @@ resource "aws_subnet" "example_subnet_2" {
   cidr_block           = "10.0.2.0/24"
   availability_zone_id = "usw1-az3"
 }
+
+resource "aws_vpc_endpoint" "secrets-manager-endpoint" {
+  vpc_id       = aws_vpc.example.id
+  service_name = "com.amazonaws.us-west-1.secretsmanager"
+
+  security_group_ids = [aws_security_group.vpc-endpoint-secrets-manager.id]
+}
