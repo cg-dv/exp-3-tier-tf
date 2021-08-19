@@ -3,10 +3,16 @@ resource "aws_autoscaling_attachment" "asg_attachment" {
   alb_target_group_arn   = aws_lb_target_group.example-tg.arn
 }
 
+resource "aws_iam_instance_profile" "asg-secrets-manager-profile" {
+  name = "asg-instance-profile"
+  role = "EC2-Secrets-Manager-Read-Write"
+}
+
 resource "aws_launch_configuration" "example-lc" {
   name                        = "terraform-lc"
   image_id                    = "ami-0d382e80be7ffdae5"
   instance_type               = "t2.micro"
+  iam_instance_profile        = aws_iam_instance_profile.asg-secrets-manager-profile.name
   associate_public_ip_address = true
   user_data                   = <<-EOF
     #!/usr/bin/env bash
@@ -35,10 +41,12 @@ resource "aws_autoscaling_group" "bar" {
   vpc_zone_identifier       = [aws_subnet.example_subnet_1.id, aws_subnet.example_subnet_2.id]
 
   initial_lifecycle_hook {
-    name                 = "foobar"
-    default_result       = "CONTINUE"
-    heartbeat_timeout    = 30
-    lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
+    name                    = "foobar"
+    default_result          = "CONTINUE"
+    heartbeat_timeout       = 30
+    lifecycle_transition    = "autoscaling:EC2_INSTANCE_LAUNCHING"
+    notification_target_arn = "arn:aws:sns:us-west-1:414402433373:autoscaling-group-notifications"
+    role_arn                = "arn:aws:iam::414402433373:role/EC2-Notification-Access"
   }
 
   tag {

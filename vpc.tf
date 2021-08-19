@@ -1,5 +1,7 @@
 resource "aws_vpc" "example" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -27,8 +29,10 @@ resource "aws_subnet" "example_subnet_2" {
 }
 
 resource "aws_vpc_endpoint" "secrets-manager-endpoint" {
-  vpc_id       = aws_vpc.example.id
-  service_name = "com.amazonaws.us-west-1.secretsmanager"
-
-  security_group_ids = [aws_security_group.vpc-endpoint-secrets-manager.id]
+  vpc_id              = aws_vpc.example.id
+  service_name        = "com.amazonaws.us-west-1.secretsmanager"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = [aws_subnet.example_subnet_1.id, aws_subnet.example_subnet_2.id]
+  private_dns_enabled = true
+  security_group_ids  = [aws_security_group.vpc-endpoint-secrets-manager.id]
 }

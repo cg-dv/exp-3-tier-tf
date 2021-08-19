@@ -20,15 +20,15 @@ resource "aws_security_group" "http" {
 }
 
 resource "aws_security_group" "vpc-endpoint-secrets-manager" {
-  name        = "vpc-endpoint-secrets-manager"
+  name        = "vpc-endpoint-secretsmanager"
   description = "Allow access to secrets manager from EC2"
   vpc_id      = aws_vpc.example.id
 
   ingress {
-    description     = "TLS from http security group"
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
+    description     = "HTTPS from http security group"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
     security_groups = [aws_security_group.http.id]
   }
 
