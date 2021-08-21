@@ -21,8 +21,14 @@ resource "aws_launch_configuration" "example-lc" {
     sudo apt-get -y install nodejs npm git
     git clone https://github.com/cg-dv/express-js-3-tier.git
     cd express-js-3-tier/express_form
-    npm install
-    node app.js 
+    sudo npm install
+    sudo sed -i '' -e 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf 
+    sudo sysctl -p /etc/sysctl.conf
+    sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+    sudo iptables -A INPUT -p tcp -m tcp --sport 80 -j ACCEPT
+    sudo iptables -A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
+    sudo npm install pm2 -g
+    pm2 start app.js 
     EOF
   security_groups             = [aws_security_group.http.id]
   key_name                    = "tf_ca"
