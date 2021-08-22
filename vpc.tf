@@ -6,6 +6,26 @@ resource "aws_vpc" "example" {
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.example.id
+  
+  tags = {
+    Name = "Internet Gateway"
+  }
+}
+
+resource "aws_nat_gateway" "public-NAT-gw" {
+  allocation_id = aws_eip.NAT-eip.id
+  subnet_id     = aws_subnet.example.id
+
+  tags = {
+    Name = "NAT Gateway"
+  }
+
+  depends_on = [aws_internet_gateway.igw]
+}
+
+resource "aws_eip" "NAT-eip" {
+  vpc = true
+  depends_on                = [aws_internet_gateway.igw]
 }
 
 resource "aws_default_route_table" "route_to_internet" {
