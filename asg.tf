@@ -44,7 +44,7 @@ resource "aws_autoscaling_group" "bar" {
   force_delete              = true
   launch_configuration      = aws_launch_configuration.example-lc.name
   target_group_arns         = [aws_lb_target_group.example-tg.arn]
-  vpc_zone_identifier       = [aws_subnet.example_subnet_1.id, aws_subnet.example_subnet_2.id]
+  vpc_zone_identifier       = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
 
   initial_lifecycle_hook {
     name                    = "foobar"
