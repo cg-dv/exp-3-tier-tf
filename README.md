@@ -1,7 +1,7 @@
 # Express JS 3-Tier Architecture 
 
 This repository is home to a [Terraform](https://www.terraform.io/) configuration that defines a 3-tier
-architecture running a simple JS app that queries a MySQL database.
+architecture running a simple JS app that queries a MySQL database.  The JS app running on the EC2 web servers in this project is in [this repository](https://github.com/cg-dv/express-js-3-tier).
 
 ## Diagram
 
