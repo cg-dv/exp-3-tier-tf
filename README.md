@@ -5,7 +5,7 @@ architecture running a simple JS app that queries a MySQL database.
 
 ## Diagram
 
-
+<img src="diagram/AWS-express-3-tier.drawio.png?raw=true">
 
 ## Architecture
 
