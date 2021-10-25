@@ -15,6 +15,15 @@ The EC2 web servers fetch RDS database credentials from AWS Secrets Manager via 
 
 The RDS instances can fetch software updates via the NAT Gateway in this VPC, and can only accept incoming traffic from the web servers running in the public subnets in this VPC.  The Terraform state file for this configuration is stored in S3. 
 
+## Usage:
+
+Initalize Terraform and S3 remote backend:
+
+`terraform init`
+
+Build infrastructure:
+
+`terraform apply`
 
 ## Outputs
 
